@@ -1,0 +1,44 @@
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.ApplicationContext;
+
+@RunWith(MockitoJUnitRunner.class)
+public class TXNDataHandlerTest {
+
+    @Mock
+    private ApplicationContext appContext;
+
+    @Mock
+    private TXNService txnService;
+
+    @Mock
+    private TXNUploadHandler txnUploadHandler;
+
+    @InjectMocks
+    private TXNDataHandler txnDataHandler;
+
+    @Before
+    public void setUp() {
+        when(appContext.getBean(TXNUploadHandler.class)).thenReturn(txnUploadHandler);
+    }
+
+    @Test
+    public void testPostDetails() {
+        EstpTXNRequest request = new EstpTXNRequest();
+        ResponseObjectData expected = new ResponseObjectData();
+
+        when(txnService.insertRequest(any(EstpTXNRequest.class), any(TXNUploadHandler.class))).thenReturn(expected);
+
+        ResponseObjectData actual = txnDataHandler.postDetails(request);
+
+        assertEquals(expected, actual);
+    }
+}
