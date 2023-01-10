@@ -1,0 +1,31 @@
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
+
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = { TXNSpringConfig.class })
+public class TXNDataHandlerTest {
+
+    @Autowired
+    private TXNDataHandler txnDataHandler;
+
+    @Autowired
+    private TXNService txnService;
+
+    @Autowired
+    private TXNUploadHandler txnUploadHandler;
+
+    @Test
+    public void testPostDetails() {
+        EstpTXNRequest request = new EstpTXNRequest();
+        ResponseObjectData expected = new ResponseObjectData();
+
+        when(txnService.insertRequest(any(EstpTXNRequest.class), any(TXNUploadHandler.class))).thenReturn(expected);
+
+        ResponseObjectData actual = txnDataHandler.postDetails(request);
+
+        assertEquals(expected, actual);
+    }
+}
