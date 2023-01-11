@@ -1,0 +1,19 @@
+public class TXNUploadDBServiceTest {
+    @Mock
+    private TXNInsertDAO mockDAO;
+
+    @InjectMocks
+    private TXNUploadDBService classUnderTest;
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    public void testInsertXgreposRecord() {
+        Xgrepos xgrepos = new Xgrepos();
+        classUnderTest.insertXgreposRecord(xgrepos);
+        verify(mockDAO, times(1)).insertXgreposRecord(xgrepos);
+    }
+}
