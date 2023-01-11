@@ -1,0 +1,16 @@
+@RunWith(MockitoJUnitRunner.class)
+public class TXNUploadHandlerTest {
+
+    @Mock
+    private TXNUploadService mockService;
+
+    @InjectMocks
+    private TXNUploadHandler classUnderTest;
+
+    @Test
+    public void testInsertXgreposRecord(){
+        Xgrepos xgrepos = new Xgrepos();
+        classUnderTest.insertXgreposRecord(xgrepos);
+        verify(mockService, times(1)).insertXgreposRecord(xgrepos);
+    }
+}
